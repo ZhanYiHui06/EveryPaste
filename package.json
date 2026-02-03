@@ -1,0 +1,30 @@
+{
+  "name": "everypaste",
+  "private": false,
+  "version": "0.1.0",
+  "description": "A lightweight, efficient clipboard manager for Windows built with Tauri",
+  "author": "ZhanYiHui06",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZhanYiHui06/EveryPaste"
+  },
+  "keywords": [
+    "clipboard",
+    "clipboard-manager",
+    "tauri",
+    "rust",
+    "windows",
+    "productivity"
+  ],
+  "type": "module",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "png2icons": "^2.0.1"
+  }
+}

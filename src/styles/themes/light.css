@@ -1,0 +1,46 @@
+/**
+ * EveryPaste - Light Theme
+ */
+
+:root {
+    /* Solid background colors - opaque */
+    --bg-solid: #f5f5f7;
+    --bg-primary: #f5f5f7;
+    --bg-titlebar: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #fafafa;
+    --bg-card-selected: rgba(0, 122, 255, 0.08);
+    --bg-input: #ffffff;
+    --bg-hover: rgba(0, 0, 0, 0.05);
+    --bg-menu: #ffffff;
+    --bg-toggle: #e0e0e0;
+    --bg-toast: rgba(29, 29, 31, 0.95);
+
+    /* Icon backgrounds */
+    --bg-icon: rgba(0, 122, 255, 0.1);
+    --bg-icon-image: rgba(52, 199, 89, 0.1);
+    --bg-icon-rich: rgba(175, 82, 222, 0.1);
+
+    /* Text colors */
+    --text-primary: #1d1d1f;
+    --text-secondary: #86868b;
+    --text-tertiary: #aeaeb2;
+    --text-placeholder: #c7c7cc;
+    --text-toast: #ffffff;
+
+    /* Theme colors */
+    --color-primary: #007aff;
+    --color-primary-alpha: rgba(0, 122, 255, 0.2);
+    --color-image: #34c759;
+    --color-rich: #af52de;
+    --color-danger: #ff3b30;
+    --color-danger-alpha: rgba(255, 59, 48, 0.1);
+
+    /* Borders and shadows */
+    --border-color: rgba(0, 0, 0, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.15);
+
+    /* Scrollbar */
+    --scrollbar-color: rgba(0, 0, 0, 0.15);
+    --scrollbar-hover-color: rgba(0, 0, 0, 0.25);
+}

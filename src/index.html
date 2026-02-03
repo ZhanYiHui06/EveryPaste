@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EveryPaste</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/themes/light.css" id="theme-light">
+  <link rel="stylesheet" href="styles/themes/dark.css" id="theme-dark" disabled>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Title Bar -->
+    <header class="titlebar">
+      <!-- Dedicated drag region -->
+      <div class="titlebar-drag-region" data-tauri-drag-region></div>
+
+      <div class="search-container" data-tauri-drag-region>
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <path d="M21 21l-4.35-4.35" />
+        </svg>
+        <input type="text" id="search-input" class="search-input" placeholder="搜索剪贴板..." autocomplete="off" />
+      </div>
+      <div class="titlebar-buttons">
+        <button class="titlebar-btn" id="btn-settings" title="设置">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3" />
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        </button>
+        <button class="titlebar-btn btn-close" id="btn-close" title="关闭">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Clipboard History List -->
+      <div id="clipboard-list" class="clipboard-list">
+        <!-- Dynamically generated content -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="empty-state hidden">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+          <rect x="9" y="3" width="6" height="4" rx="1" />
+        </svg>
+        <p>剪贴板历史为空</p>
+        <span>复制内容后会自动显示在这里</span>
+      </div>
+    </main>
+
+    <!-- Welcome Panel (shown on first run) -->
+    <div id="welcome-panel" class="welcome-panel hidden">
+      <div class="welcome-content">
+        <div class="welcome-icon">
+          <img src="assets/logo.png" alt="EveryPaste Logo" class="welcome-logo">
+        </div>
+        <h1 class="welcome-title">欢迎使用 EveryPaste</h1>
+        <p class="welcome-desc">轻量、高效的剪贴板管理工具</p>
+        <div class="welcome-features">
+          <div class="welcome-feature">
+            <span class="feature-icon">⌨️</span>
+            <span>按 <kbd>Alt+V</kbd> 快速唤起</span>
+          </div>
+          <div class="welcome-feature">
+            <span class="feature-icon">📋</span>
+            <span>自动记录复制内容</span>
+          </div>
+          <div class="welcome-feature">
+            <span class="feature-icon">🔒</span>
+            <span>本地存储，隐私安全</span>
+          </div>
+        </div>
+        <button id="btn-start" class="welcome-btn">开始使用</button>
+      </div>
+    </div>
+
+    <!-- Settings Panel (hidden by default) -->
+    <div id="settings-panel" class="settings-panel hidden">
+      <header class="settings-header">
+        <button class="back-btn" id="btn-back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <h2>设置</h2>
+      </header>
+
+      <div class="settings-content">
+        <!-- Theme Settings -->
+        <div class="setting-group">
+          <label class="setting-label">主题</label>
+          <div class="setting-options">
+            <button class="theme-btn active" data-theme="light">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5" />
+                <path
+                  d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+              </svg>
+              <span>亮色</span>
+            </button>
+            <button class="theme-btn" data-theme="dark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+              <span>暗色</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Shortcut Settings -->
+        <div class="setting-group">
+          <label class="setting-label">
+            唤起快捷键
+            <span class="setting-hint">点击输入框后按下新快捷键</span>
+          </label>
+          <div class="shortcut-input">
+            <div class="shortcut-display" id="shortcut-display" tabindex="0">Alt+V</div>
+          </div>
+        </div>
+
+        <!-- History Limit -->
+        <div class="setting-group">
+          <label class="setting-label">历史记录上限</label>
+          <div class="custom-select" id="storage-limit-select">
+            <div class="custom-select-trigger">
+              <span id="storage-limit-value">最近 100 条</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </div>
+            <div class="custom-select-options">
+              <div class="custom-select-option selected" data-value="100">最近 100 条</div>
+              <div class="custom-select-option" data-value="200">最近 200 条</div>
+              <div class="custom-select-option" data-value="500">最近 500 条</div>
+              <div class="custom-select-option" data-value="-1">不限制</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Auto Start -->
+        <div class="setting-group">
+          <label class="setting-label">开机自启动</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="auto-start">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Win+V System Integration -->
+        <div class="setting-group">
+          <label class="setting-label">
+            Win+V 冲突修复
+            <span class="setting-hint">通过注册表永久禁用系统剪贴板</span>
+          </label>
+          <div class="setting-options">
+            <button id="btn-fix-win-v" class="action-btn primary" title="禁用系统剪贴板历史">一键修复</button>
+            <button id="btn-restore-win-v" class="action-btn secondary" title="恢复系统剪贴板历史">恢复默认</button>
+          </div>
+        </div>
+
+        <!-- Clear History -->
+        <div class="setting-group danger-zone">
+          <label class="setting-label">危险操作</label>
+          <button class="danger-btn" id="btn-clear-all">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            </svg>
+            清空所有历史记录
+          </button>
+        </div>
+      </div>
+
+      <!-- Version Info -->
+      <footer class="settings-footer">
+        <span>EveryPaste v0.1.0</span>
+        <a href="https://github.com/ZhanYiHui06/EveryPaste" target="_blank" class="github-link" title="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          </svg>
+        </a>
+      </footer>
+    </div>
+
+    <!-- Context Menu -->
+    <div id="context-menu" class="context-menu hidden">
+      <button class="context-menu-item" data-action="paste">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+        </svg>
+        粘贴
+      </button>
+      <button class="context-menu-item" data-action="paste-plain">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+        </svg>
+        粘贴为纯文本
+      </button>
+      <div class="context-menu-divider"></div>
+      <button class="context-menu-item danger" data-action="delete">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+        </svg>
+        删除
+      </button>
+    </div>
+
+    <!-- Modal Dialog -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+      <div class="modal">
+        <h3 id="modal-title">提示</h3>
+        <p id="modal-message">内容</p>
+        <div class="modal-actions">
+          <button id="modal-btn-cancel" class="action-btn secondary">取消</button>
+          <button id="modal-btn-confirm" class="action-btn primary">确定</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+      <span id="toast-message"></span>
+    </div>
+  </div>
+
+  <script src="scripts/main.js" type="module"></script>
+</body>
+
+</html>

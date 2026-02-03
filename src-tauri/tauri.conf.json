@@ -1,0 +1,67 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "EveryPaste",
+  "version": "0.1.0",
+  "identifier": "com.everypaste.clipboard",
+  "build": {
+    "frontendDist": "../src"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "title": "EveryPaste",
+        "label": "main",
+        "width": 396,
+        "height": 506,
+        "minWidth": 396,
+        "minHeight": 506,
+        "maxWidth": 396,
+        "maxHeight": 506,
+        "center": true,
+        "resizable": false,
+        "decorations": false,
+        "transparent": true,
+        "alwaysOnTop": true,
+        "visible": false,
+        "skipTaskbar": true,
+        "focus": true,
+        "dragDropEnabled": false,
+        "shadow": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "nsis",
+      "msi"
+    ],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "nsis": {
+        "installerIcon": "icons/icon.ico",
+        "installMode": "currentUser",
+        "displayLanguageSelector": false,
+        "languages": [
+          "SimpChinese",
+          "English"
+        ]
+      }
+    },
+    "resources": [],
+    "shortDescription": "极致轻量化的剪贴板管理工具",
+    "longDescription": "EveryPaste 是一款极致轻量化、占用极少资源、界面简洁高级的 Windows 剪贴板管理工具。支持富文本、图片，历史记录持久化存储，重启不丢失。",
+    "category": "Utility",
+    "publisher": "EveryPaste Team"
+  }
+}
