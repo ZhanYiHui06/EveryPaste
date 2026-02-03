@@ -64,8 +64,8 @@
 
 访问 [Releases](https://github.com/ZhanYiHui06/EveryPaste/releases) 页面下载最新安装包：
 
-- **Windows (NSIS)**: `EveryPaste_x.x.x_x64-setup.exe`
-- **Windows (MSI)**: `EveryPaste_x.x.x_x64_en-US.msi`
+- **Windows (NSIS)**: `EveryPaste_0.1.0_x64-setup.exe`
+- **Windows (MSI)**: `EveryPaste_0.1.0_x64_en-US.msi`
 
 ### 从源码构建
 
